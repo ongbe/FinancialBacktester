@@ -29,7 +29,7 @@ hold_record = {'Capital':capital_list, 'Currency':currency_list, 'Units':unit_li
            'Transaction Type': transaction_type_list, 'Stop Loss' : stop_loss_list, 'Current Atr' : atr_list
            }
 
-def backtest(df,lagInput):
+def backtest(df,lagInput,filename):
     
     #Reset
     df.convert_objects(convert_numeric=True).dtypes
@@ -99,7 +99,7 @@ def backtest(df,lagInput):
     
     currency = str(df['Currency'][0])
     currency = currency.replace('/', '_')
-    filename = currency + "_" + str(lag) + "_output_"  + time.strftime("%d_%m_%Y") + ".txt"
+    output_filename = currency + "_" + str(lag) + "_output_"  + time.strftime("%d_%m_%Y") + ".txt"
         
     while iterate < count:
         
@@ -395,7 +395,7 @@ def backtest(df,lagInput):
                                      hold_record_df.ix[inner_rec]['Transaction Type'],hold_record_df.ix[inner_rec]['Stop Loss'],\
                                      hold_record_df.ix[inner_rec]['Current Atr'])
                 
-                rec_tt = hold_temp.getTransactionType()
+                #rec_tt = hold_temp.getTransactionType()
                 previous_transaction = hold_temp.getTransactionType()
                 
                 if (previous_transaction == "SELL"): 
@@ -558,9 +558,9 @@ def backtest(df,lagInput):
         iterate += 1
 
     # Generate final results
-    final_results(Capital,number_of_trades,number_of_winning_trades,number_of_lossing_trades,filename)
+    final_results(Capital,number_of_trades,number_of_winning_trades,number_of_lossing_trades,output_filename)
     #Plot Data
-    plotGraph(df,PnL_List,lag,currency,filename)
+    plotGraph(df,PnL_List,lag,currency,output_filename,filename)
   
 '''Order Function'''    
 def order(hold):
@@ -587,31 +587,35 @@ def remove_record(inner_rec):
     atr_list.pop(inner_rec)
 
 '''Plot Data'''
-def plotGraph(df,PnL_List,lag,currency,filename):
-    
-    #datetime = list(df['Date'])
-    #datetime = [w.replace(".","/") for w in datetime]
-    #datetime = [w.replace("00:00:00", "") for w in datetime]
-    
-    #date = dates.datestr2num(datetime)
-    
+def plotGraph(df,PnL_List,lag,currency,output_filename,filename):
+
+    title = filename + '_'    
     fig = plt.figure(facecolor='white')
     
     plt.rc('axes', grid=True)
     plt.rc('grid', color='0.75', linestyle='-', linewidth=0.5)
     
-    ax1 = fig.add_subplot(211)
-    ax2 = fig.add_subplot(212)
+    ax1 = fig.add_subplot(311)
+    ax2 = fig.add_subplot(312)
+    ax3 = fig.add_subplot(313)
         
-    ax1.plot(df.index, df[str(lag) + '_MA_Close'], color='red',label= str(lag) +  'Day MA')
-    ax1.plot(df.index, df['Close'], color='green',label='Close')
+    ax1.plot(df.index, df[str(lag) + '_MA_Close'], color='red',label= title + str(lag) +  'Day MA')
+    ax1.plot(df.index, df['Close'], color='green',label= title + 'Close')
     ax1.set_title(currency)
     
     total_PnL = {'Profit and Loss': PnL_List}
     PnL_df = pd.DataFrame(total_PnL) 
     
-    ax2.set_title("Profit and Loss")
-    ax2.plot(PnL_df.index,PnL_df['Profit and Loss'],color='blue',label='Profit and Loss')
+    range_high_low = df['High'].shift(2) - df['Low'].shift(2)
+    range_high_close = abs(df['High'].shift(2) - df['Close'].shift(1))
+    range_low_close = abs(df['Low'].shift(2) - df['Close'].shift(1))
+    
+    ax2.plot(range_high_low.index,range_high_low,label=title + 'H2L2')
+    ax2.plot(range_high_close.index,range_high_close,label= title + 'H2C1')
+    ax2.plot(range_low_close.index,range_low_close,label= title + 'L2C1')
+    
+    ax3.set_title("Profit and Loss")
+    ax3.plot(PnL_df.index,PnL_df['Profit and Loss'],color='blue',label= title + 'Profit and Loss')
     
     ax1.legend(loc='best')
     ax2.legend(loc='best')
@@ -619,9 +623,16 @@ def plotGraph(df,PnL_List,lag,currency,filename):
     h = os.getcwd()
     outputDir = h + '/Output/'
     
-    filename = filename.replace("txt","png")
-    filename = outputDir + filename
-    plt.savefig(filename, dpi=400, bbox_inches='tight')
+    output_filename = output_filename.replace("txt","png")
+    output_filename = outputDir + output_filename
+    
+    ax1.legend(prop={"size":10})
+    ax2.legend(prop={"size":10})
+    ax3.legend(prop={"size":10})
+    
+    plt.tight_layout()
+    plt.savefig(output_filename, dpi=400, bbox_inches='tight')
+    
     #plt.show()
 
 '''Get max range for ATR'''
@@ -660,6 +671,21 @@ def dataStr(action_signal,iterate,Enter_price,lag,current_MA_Close,Capital,curre
             " Current " + str(lag) +  " MA Last " + str(current_MA_Close) + " Current Capital  " \
            + str(Capital) + " Current ATR " + str(current_atr)
 
+def clearData():
+    
+    capital_list = []
+    currency_list = []
+    unit_list = []
+    transaction_type_list = []
+    transaction_price_list = []
+    stop_loss_list = []
+    atr_list = []
+
+    columns_header = ['Capital','Currency','Units','Enter Price','Transaction Type','Stop Loss','Current Atr']
+
+    hold_record = {'Capital':capital_list, 'Currency':currency_list, 'Units':unit_list,  'Enter Price' : transaction_price_list,
+           'Transaction Type': transaction_type_list, 'Stop Loss' : stop_loss_list, 'Current Atr' : atr_list
+           }
 
 def final_results(Capital,number_of_trades,number_of_winning_trades,number_of_lossing_trades,filename):
     # Print final results

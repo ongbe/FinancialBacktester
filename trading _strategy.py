@@ -7,7 +7,7 @@ if __name__ == '__main__':
                 
     print "Initialising BackTest 0.1. Please enjoy a drink while I crunch the numbers"
 
-    lag = 25
+    lag = 2
     
     #inputDir = os.path.dirname(__file__) + '/Forex Input'
 

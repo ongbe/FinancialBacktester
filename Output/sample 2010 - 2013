@@ -1,0 +1,240 @@
+Previous day signal indicates BUY 4. Current price 1.4365 Current 2 MA Last 1.4396 Current Capital  100000 Current ATR 0.0077
+
+Previous day signal indicates SELL 5. Current price 1.4402 Current 2 MA Last 1.4384 Current Capital  44032.5235 Current ATR 0.017
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  174418       1.4365              BUY     1.4261       0.0149
+1   44032.5235  USD_EURO   76800       1.4402             SELL     1.4572       0.0170
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  174418       1.4365              BUY     1.4261       0.0149
+1   44032.5235  USD_EURO   76800       1.4402             SELL     1.4559       0.0149
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  157505       1.4365              BUY     1.4391       0.0117
+1   44032.5235  USD_EURO   67101       1.4402             SELL     1.4559       0.0149
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  157505       1.4365              BUY     1.4391       0.0117
+1   44032.5235  USD_EURO   67101       1.4402             SELL     1.4625       0.0117
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  157505       1.4365              BUY     1.4399       0.0078
+1   44032.5235  USD_EURO   67101       1.4402             SELL     1.4625       0.0117
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  157505       1.4365              BUY     1.4399       0.0078
+1   44032.5235  USD_EURO   67101       1.4402             SELL     1.4555       0.0078
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  124095       1.4365              BUY     1.4403       0.0097
+1   44032.5235  USD_EURO   52867       1.4402             SELL     1.4555       0.0078
+
+Exit
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  124095       1.4365              BUY     1.4403       0.0097
+1   44032.5235  USD_EURO   42512       1.4402             SELL     1.4555       0.0078
+
+Previous day signal indicates BUY 18. Current price 1.4281 Current 2 MA Last 1.4343 Current Capital  34285.31502 Current ATR 0.0045
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  44032.52350  USD_EURO   12613       1.4402             SELL     1.4326       0.0045
+1  34285.31502  USD_EURO  228569       1.4281              BUY     1.4236       0.0045
+
+Previous day signal indicates BUY 4. Current price 1.4365 Current 2 MA Last 1.4396 Current Capital  100000 Current ATR 0.0077
+
+Previous day signal indicates SELL 5. Current price 1.4402 Current 2 MA Last 1.4384 Current Capital  44032.5235 Current ATR 0.017
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  174418       1.4365              BUY     1.4261       0.0149
+1   44032.5235  USD_EURO   76800       1.4402             SELL     1.4572       0.0170
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  174418       1.4365              BUY     1.4261       0.0149
+1   44032.5235  USD_EURO   76800       1.4402             SELL     1.4559       0.0149
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  157505       1.4365              BUY     1.4391       0.0117
+1   44032.5235  USD_EURO   67101       1.4402             SELL     1.4559       0.0149
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  157505       1.4365              BUY     1.4391       0.0117
+1   44032.5235  USD_EURO   67101       1.4402             SELL     1.4625       0.0117
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  157505       1.4365              BUY     1.4399       0.0078
+1   44032.5235  USD_EURO   67101       1.4402             SELL     1.4625       0.0117
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  157505       1.4365              BUY     1.4399       0.0078
+1   44032.5235  USD_EURO   67101       1.4402             SELL     1.4555       0.0078
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  124095       1.4365              BUY     1.4403       0.0097
+1   44032.5235  USD_EURO   52867       1.4402             SELL     1.4555       0.0078
+
+Exit
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  124095       1.4365              BUY     1.4403       0.0097
+1   44032.5235  USD_EURO   42512       1.4402             SELL     1.4555       0.0078
+
+Previous day signal indicates BUY 18. Current price 1.4281 Current 2 MA Last 1.4343 Current Capital  34285.31502 Current ATR 0.0045
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  44032.52350  USD_EURO   12613       1.4402             SELL     1.4326       0.0045
+1  34285.31502  USD_EURO  228569       1.4281              BUY     1.4236       0.0045
+
+Previous day signal indicates BUY 4. Current price 1.4365 Current 2 MA Last 1.4396 Current Capital  100000 Current ATR 0.0077
+
+Previous day signal indicates SELL 5. Current price 1.4402 Current 2 MA Last 1.4384 Current Capital  44032.5235 Current ATR 0.017
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  174418       1.4365              BUY     1.4261       0.0149
+1   44032.5235  USD_EURO   76800       1.4402             SELL     1.4572       0.0170
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  174418       1.4365              BUY     1.4261       0.0149
+1   44032.5235  USD_EURO   76800       1.4402             SELL     1.4559       0.0149
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  157505       1.4365              BUY     1.4391       0.0117
+1   44032.5235  USD_EURO   67101       1.4402             SELL     1.4559       0.0149
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  157505       1.4365              BUY     1.4391       0.0117
+1   44032.5235  USD_EURO   67101       1.4402             SELL     1.4625       0.0117
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  157505       1.4365              BUY     1.4399       0.0078
+1   44032.5235  USD_EURO   67101       1.4402             SELL     1.4625       0.0117
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  157505       1.4365              BUY     1.4399       0.0078
+1   44032.5235  USD_EURO   67101       1.4402             SELL     1.4555       0.0078
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  124095       1.4365              BUY     1.4403       0.0097
+1   44032.5235  USD_EURO   52867       1.4402             SELL     1.4555       0.0078
+
+Exit
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  124095       1.4365              BUY     1.4403       0.0097
+1   44032.5235  USD_EURO   42512       1.4402             SELL     1.4555       0.0078
+
+Previous day signal indicates BUY 18. Current price 1.4281 Current 2 MA Last 1.4343 Current Capital  34285.31502 Current ATR 0.0045
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  44032.52350  USD_EURO   12613       1.4402             SELL     1.4326       0.0045
+1  34285.31502  USD_EURO  228569       1.4281              BUY     1.4236       0.0045
+
+Previous day signal indicates BUY 4. Current price 1.4365 Current 2 MA Last 1.4396 Current Capital  100000 Current ATR 0.0077
+
+Previous day signal indicates SELL 5. Current price 1.4402 Current 2 MA Last 1.4384 Current Capital  44032.5235 Current ATR 0.017
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  174418       1.4365              BUY     1.4261       0.0149
+1   44032.5235  USD_EURO   76800       1.4402             SELL     1.4572       0.0170
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  174418       1.4365              BUY     1.4261       0.0149
+1   44032.5235  USD_EURO   76800       1.4402             SELL     1.4559       0.0149
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  157505       1.4365              BUY     1.4391       0.0117
+1   44032.5235  USD_EURO   67101       1.4402             SELL     1.4559       0.0149
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  157505       1.4365              BUY     1.4391       0.0117
+1   44032.5235  USD_EURO   67101       1.4402             SELL     1.4625       0.0117
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  157505       1.4365              BUY     1.4399       0.0078
+1   44032.5235  USD_EURO   67101       1.4402             SELL     1.4625       0.0117
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  157505       1.4365              BUY     1.4399       0.0078
+1   44032.5235  USD_EURO   67101       1.4402             SELL     1.4555       0.0078
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  124095       1.4365              BUY     1.4403       0.0097
+1   44032.5235  USD_EURO   52867       1.4402             SELL     1.4555       0.0078
+
+Exit
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  100000.0000  USD_EURO  124095       1.4365              BUY     1.4403       0.0097
+1   44032.5235  USD_EURO   42512       1.4402             SELL     1.4555       0.0078
+
+Previous day signal indicates BUY 18. Current price 1.4281 Current 2 MA Last 1.4343 Current Capital  34285.31502 Current ATR 0.0045
+
+Reset Stop Loss and Close Partial Position
+
+       Capital  Currency   Units  Enter Price Transaction Type  Stop Loss  Current Atr
+0  44032.52350  USD_EURO   12613       1.4402             SELL     1.4326       0.0045
+1  34285.31502  USD_EURO  228569       1.4281              BUY     1.4236       0.0045
+

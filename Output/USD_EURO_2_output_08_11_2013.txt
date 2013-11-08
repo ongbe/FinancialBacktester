@@ -1,0 +1,28 @@
+Capital 1643.37613
+Number of Trades 14
+Number of Winning Trades 8
+Number of Lossing Trades 6
+Percentage of Success 0.571428571429
+Back Test End. Please review results
+
+Capital 1643.37613
+Number of Trades 14
+Number of Winning Trades 8
+Number of Lossing Trades 6
+Percentage of Success 0.571428571429
+Back Test End. Please review results
+
+Capital 1643.37613
+Number of Trades 14
+Number of Winning Trades 8
+Number of Lossing Trades 6
+Percentage of Success 0.571428571429
+Back Test End. Please review results
+
+Capital 1643.37613
+Number of Trades 14
+Number of Winning Trades 8
+Number of Lossing Trades 6
+Percentage of Success 0.571428571429
+Back Test End. Please review results
+
