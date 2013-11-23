@@ -1,3 +1,4 @@
+from __future__ import division
 from zipline import TradingAlgorithm
 from zipline.transforms import MovingAverage
 from zipline.finance.commission import PerTrade
@@ -6,7 +7,7 @@ from datetime import datetime
 from zipline.finance.slippage import FixedSlippage
 from zipline.finance.performance import PerformancePeriod
 from zipline.finance.risk import RiskReport
-
+from math import *
 
 import zipline.finance.trading as trading
 import Lib.Utility as ut
@@ -38,7 +39,14 @@ class DualMovingAverage(TradingAlgorithm):
         self.capital_base = 10000
         self.tickers = tickers
         self.basket = basket
+        self.quantity = 0
         
+    def setQuantity(self,quantity):
+        self.quantity = quantity
+        
+    def getQuantity(self):
+        return self.quantity
+    
     def handle_data(self, data):
         
 
@@ -70,6 +78,7 @@ class DualMovingAverage(TradingAlgorithm):
         
         temp = 0
         ticker_PerChange = 0.00
+        ticker_price = 0.00
         for s in percent_changes:
             
             min = s[1]  
@@ -77,27 +86,36 @@ class DualMovingAverage(TradingAlgorithm):
                 temp = min 
                 ticker_PerChange = s[0]
                 ticker = s[0].replace('PerChange','Close')
+                ticker_price = data[ticker].price
                 
         buy = False
         sell = False
-        
-        if KLCI_PerChange < 0:
-            if ticker not in basket:
-                basket.append(ticker)
-                self.order(ticker, 1000,stop_price=None,limit_price=None)
-                buy = True
-                print "Buy " + ticker 
-            
 
-        for ticker in tickers: 
-            if ticker in basket:
-                ticker = ticker.replace('Close','PerChange')
-                ticker_PerChange = data[ticker].price                
-                if ticker_PerChange > 0.01:
+        if KLCI_PerChange < 0 and not self.invested:
+            if ticker not in basket:
+                
+                if self.capital_base > 0 and target > 0:
+                    basket.append(ticker)
+                    q = ticker_price
+                    w = data[ticker].price
+                    self.quantity = self.capital_base/ data[ticker].price
+                    self.order(ticker, self.quantity,stop_price=None,limit_price=None)
+                    self.invested = True
+                    buy = True
+                    print "Buy " + ticker 
+            
+        elif self.invested:
+            for ticker in tickers: 
+                if ticker in basket:
+                    ticker = ticker.replace('Close','PerChange')
+                    ticker_PerChange = data[ticker].price                
+                    #if ticker_PerChange > 0.01:
                     ticker = ticker.replace('PerChange','Close')
                     basket.remove(ticker)
-                    self.order(ticker, -1000,stop_price=None,limit_price=None)
+                    quantity = self.getQuantity()
+                    self.order(ticker, -quantity,stop_price=None,limit_price=None)
                     sell = True
+                    self.invested = False
                     print "Sold " + ticker
 
     # Record state variables. A column for each
@@ -107,86 +125,7 @@ class DualMovingAverage(TradingAlgorithm):
                     sell=sell)
 
 
-class greedySmart(TradingAlgorithm):
-    
-    '''A Strategy which uses ATR and manages risk'''
-    
-    def initialize(self,tickers,basket):
-        
-        self.invested = False
-        self.commission = PerTrade(0.00)
-        #self.starting_cash(10000)
-        self.set_slippage(FixedSlippage())
-        self.capital_base = 100000
-        self.tickers = tickers
-        self.basket = basket
-        
-    def handle_data(self, data):
-        
 
-        KLCI_PerChange = data['KLCI_PerChange'].price
-        
-        
-        percent_changes = []    
-        
-        for ticker in tickers:
-            
-            percent_change = []
-            
-            if ticker == 'KLCI_Close':
-                continue 
-            
-            key = ticker
-            
-            ticker = ticker.replace('Close','PerChange')           
-            target = data[ticker].price
-            
-            if str(target) != 'nan':
-            
-                percent_change.append(key)
-                percent_change.append(target)
-                percent_changes.append(percent_change)
-
-        
-        #Look for the most minimum percentage change and invest
-        
-        temp = 0
-        ticker_PerChange = 0.00
-        for s in percent_changes:
-            
-            min = s[1]  
-            if min < temp:
-                temp = min 
-                ticker_PerChange = s[0]
-                ticker = s[0].replace('PerChange','Close')
-                
-        buy = False
-        sell = False
-        
-        if KLCI_PerChange < 0:
-            if ticker not in basket:
-                basket.append(ticker)
-                self.order(ticker, 1000,stop_price=None,limit_price=None)
-                buy = True
-                print "Buy " + ticker 
-            
-
-        for ticker in tickers: 
-            if ticker in basket:
-                ticker = ticker.replace('Close','PerChange')
-                ticker_PerChange = data[ticker].price                
-                if ticker_PerChange > 0.01:
-                    ticker = ticker.replace('PerChange','Close')
-                    basket.remove(ticker)
-                    self.order(ticker, -1000,stop_price=None,limit_price=None)
-                    sell = True
-                    print "Sold " + ticker
-
-    # Record state variables. A column for each
-    # variable will be added to the performance
-    # DataFrame returned by .run()
-        self.record(buy=buy,
-                    sell=sell)
 
 if __name__ == '__main__':
 
@@ -216,10 +155,10 @@ if __name__ == '__main__':
         ticker = ticker.replace('_Close',"")        
         if ticker == 'KLCI':
             data[ticker + '_PerChange'] = ohlc[ticker + '_Close']/ohlc[ticker + '_Close'].shift(1)-1
-            data[ticker + '_PerChange'] = data[ticker + '_PerChange'].shift(1)
+            #data[ticker + '_PerChange'] = data[ticker + '_PerChange'].shift(1)
         else:
             data[ticker + '_PerChange'] = ohlc[ticker + '_Close']/ohlc[ticker + '_Close'].shift(1)-1
-            data[ticker + '_PerChange'] = data[ticker + '_PerChange'].shift(1)
+            #data[ticker + '_PerChange'] = data[ticker + '_PerChange'].shift(1)
         
     data=data.tz_localize('UTC')
     
@@ -248,16 +187,12 @@ if __name__ == '__main__':
     perf['algorithm_returns'].plot(ax=ax1,sharex=True)
         
     ax2 = fig.add_subplot(312,  ylabel='Portfolio value in RM')
-    perf.portfolio_value.plot()
+    perf.portfolio_value.plot(ax=ax2)
     
     ax2.plot(perf.ix[perf.buy].index, perf.portfolio_value[perf.buy],
              '^', markersize=10, color='m')
     ax2.plot(perf.ix[perf.sell].index, perf.portfolio_value[perf.sell],
-             'v', markersize=10, color='k')
-    
-
-    
-    
+             'v', markersize=10, color='k')  
     
     sharpe = [risk['sharpe'] for risk in dma.risk_report['one_month']]
     print "Monthly Sharpe ratios:", sharpe
