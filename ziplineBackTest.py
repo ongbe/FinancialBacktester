@@ -36,6 +36,7 @@ class DualMovingAverage(TradingAlgorithm):
         self.commission = PerTrade(0.00)
         #self.starting_cash(10000)
         self.set_slippage(FixedSlippage())
+        
         self.capital_base = 10000
         self.tickers = tickers
         self.basket = basket
@@ -49,42 +50,29 @@ class DualMovingAverage(TradingAlgorithm):
     
     def handle_data(self, data):
         
-
-        KLCI_PerChange = data['KLCI_PerChange'].price
-        
-        
+        KLCI_PerChange = data['KLCI_PerChange'].price 
         percent_changes = []    
         
         for ticker in tickers:
-            
             percent_change = []
-            
             if ticker == 'KLCI_Close':
-                continue 
-            
-            key = ticker
-            
+                continue            
+            key = ticker         
             ticker = ticker.replace('Close','PerChange')           
             target = data[ticker].price
             
             if str(target) != 'nan':
-            
                 percent_change.append(key)
                 percent_change.append(target)
                 percent_changes.append(percent_change)
-
-        
-        #Look for the most minimum percentage change and invest
-        
+      
+        #Look for the most minimum percentage change and invest    
         temp = 0
-        ticker_PerChange = 0.00
         ticker_price = 0.00
-        for s in percent_changes:
-            
+        for s in percent_changes:       
             min = s[1]  
             if min < temp:
                 temp = min 
-                ticker_PerChange = s[0]
                 ticker = s[0].replace('PerChange','Close')
                 ticker_price = data[ticker].price
                 
@@ -92,13 +80,11 @@ class DualMovingAverage(TradingAlgorithm):
         sell = False
 
         if KLCI_PerChange < 0 and not self.invested:
-            if ticker not in basket:
-                
-                if self.capital_base > 0 and target > 0:
+            if ticker not in basket:         
+                if self._portfolio.portfolio_value > 0:              
+                    self.quantity = self._portfolio.portfolio_value/ data[ticker].price
+                    ticker = ticker.replace('_Close','')
                     basket.append(ticker)
-                    q = ticker_price
-                    w = data[ticker].price
-                    self.quantity = self.capital_base/ data[ticker].price
                     self.order(ticker, self.quantity,stop_price=None,limit_price=None)
                     self.invested = True
                     buy = True
@@ -106,11 +92,8 @@ class DualMovingAverage(TradingAlgorithm):
             
         elif self.invested:
             for ticker in tickers: 
+                ticker = ticker.replace('_Close','')
                 if ticker in basket:
-                    ticker = ticker.replace('Close','PerChange')
-                    ticker_PerChange = data[ticker].price                
-                    #if ticker_PerChange > 0.01:
-                    ticker = ticker.replace('PerChange','Close')
                     basket.remove(ticker)
                     quantity = self.getQuantity()
                     self.order(ticker, -quantity,stop_price=None,limit_price=None)
@@ -155,11 +138,13 @@ if __name__ == '__main__':
         ticker = ticker.replace('_Close',"")        
         if ticker == 'KLCI':
             data[ticker + '_PerChange'] = ohlc[ticker + '_Close']/ohlc[ticker + '_Close'].shift(1)-1
-            #data[ticker + '_PerChange'] = data[ticker + '_PerChange'].shift(1)
+            data[ticker + '_PerChange'] = data[ticker + '_PerChange'].shift(1)
         else:
+            data[ticker] = ohlc[ticker + '_Close'].shift(1)
             data[ticker + '_PerChange'] = ohlc[ticker + '_Close']/ohlc[ticker + '_Close'].shift(1)-1
-            #data[ticker + '_PerChange'] = data[ticker + '_PerChange'].shift(1)
-        
+            data[ticker + '_PerChange'] = data[ticker + '_PerChange'].shift(1)
+    
+    data= data.dropna()    
     data=data.tz_localize('UTC')
     
     basket = []
@@ -196,6 +181,17 @@ if __name__ == '__main__':
     
     sharpe = [risk['sharpe'] for risk in dma.risk_report['one_month']]
     print "Monthly Sharpe ratios:", sharpe
+    
+    maxdrawdown = [risk['sharpe'] for risk in dma.risk_report['six_month']]
+    print "Max Draw Down:", maxdrawdown
+    
+    '''max_dd = dma.risk_report['max_drawdown']
+    algo_vol = dma.risk_report['algo_volatility']
+    algo_beta = dma.risk_report['beta']
+        
+    print max_dd
+    print algo_vol
+    print algo_beta'''
     
     plt.tight_layout()
     plt.legend(loc=0)
