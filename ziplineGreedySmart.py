@@ -27,7 +27,7 @@ class GreedySmart(TradingAlgorithm):
     moving average
     """
 
-    def initialize(self,basket,short_window=25):
+    def initialize(self,basket):
         
         # To keep track of whether we invested in the stock or not 
         self.invested = False
@@ -35,35 +35,97 @@ class GreedySmart(TradingAlgorithm):
         #self.starting_cash(10000)
         self.set_slippage(FixedSlippage())
         self.capital_base = 10000
+        self.risk_capital = 0.03
         self.basket = basket
-        self.quantity = 0
+        self.quantity_short = 0
+        self.quantity_long = 0
+        self.stoploss_short = 0
+        self.stoploss_long = 0
         
-    def setQuantity(self,quantity):
-        self.quantity = quantity
         
+    def setQuantity_short(self,quantity):
+        self.quantity_short = quantity
+        
+    def getQuantity_short(self):
+        return self.quantity_short
+     
+    def setQuantity_long(self,quantity):
+        self.quantity_long = quantity
+        
+    def getQuantity_long(self):
+        return self.quantity_long
+    
     def getQuantity(self):
         return self.quantity
         
+    def setStopLoss_short(self,stoploss):
+        self.stoploss_short = stoploss
+        
+    def getStopLoss_short(self):
+        return self.stoploss_short
+    
+    def setStopLoss_long(self,stoploss):
+        self.stoploss_long = stoploss
+        
+    def getStopLoss_long(self):
+        return self.stoploss_long
+    
     def handle_data(self, ohlc):
         
-        current_price = ohlc['Close'].price
+        current_price = ohlc['Open'].price
         close_mavg = ohlc[str(lag) + '_MA_Close'].price
         atr_mavg = ohlc[str(lag) + '_MA_Atr'].price
         buy = False
         sell = False
         
-        if current_price > close_mavg:
-            self.quantity = self.capital_base/ ohlc['Close'].price
-            self.order(current_price, self.quantity,stop_price=None,limit_price=None)
-            self.invested = True
-            buy = True
-            print "Buy " + str(current_price) 
-        elif self.invested:
-            self.order(current_price, -self.quantity,stop_price=None,limit_price=None)
-            self.invested = False
-            print "Buy " + str(current_price)
+        print "Current price" + str(current_price) + " Current MAVG " + str(close_mavg)
+                 
+        if not "Long" in basket:
+            if current_price > close_mavg:
+                basket.append("Long")
+                self.stoploss_long = current_price - atr_mavg
+                self.quantity_long = self._portfolio.portfolio_value * self.risk_capital/ atr_mavg
+                self.order('KLCI', self.quantity_long,stop_price=None,limit_price=None)
+                buy = True
+                print "Long " + str(current_price)                
+                self.record(buy=buy,
+                            sell=sell) 
+                return
+        
+        if not "Short" in basket:
+            if current_price < close_mavg:
+                basket.append("Short")
+                self.stoploss_short = current_price + atr_mavg
+                self.quantity_short = self._portfolio.portfolio_value * self.risk_capital/ atr_mavg
+                self.order('KLCI', self.quantity_short,stop_price=None,limit_price=None)
+                sell = True
+                print "Short " + str(current_price)    
+                self.record(buy=buy,
+                            sell=sell)             
+                return
+                   
+        if "Long" in basket:
+            # exit position if current price below stop loss
+            if current_price < self.stoploss_long:
+                basket.remove("Long")
+                qlong = self.getQuantity_long()
+                self.order('KLCI', qlong,stop_price=None,limit_price=None)
+                sell = True
+                print "Close Long Position " + str(current_price)    
+                          
+                
             
-            
+        if "Short" in basket:
+            # exit position if current price above stop loss
+            if current_price > self.stoploss_long:
+                basket.remove("Short")
+                qshort = self.getQuantity_short()
+                self.order('KLCI', qshort,stop_price=None,limit_price=None)
+                buy = True
+                print "Close Short Position " + str(current_price)    
+             
+                        
+    
     # Record state variables. A column for each
     # variable will be added to the performance
     # DataFrame returned by .run()
@@ -104,6 +166,10 @@ if __name__ == '__main__':
     ohlc[str(lag) + '_MA_Close'] = pd.stats.moments.rolling_mean(ohlc['Close'],lag)
     ohlc[str(lag) + '_MA_Atr'] = pd.stats.moments.rolling_mean(ohlc['Atr'],lag)
     
+    ohlc[str(lag) + '_MA_Close'] = ohlc[str(lag) + '_MA_Close'].shift(1)
+    ohlc[str(lag) + '_MA_Atr'] = ohlc[str(lag) + '_MA_Atr'].shift(1)
+    ohlc['KLCI'] = ohlc['Open'].shift(1)
+        
     ohlc=ohlc.tz_localize('UTC')
 
     basket = [] 
@@ -128,6 +194,9 @@ if __name__ == '__main__':
     ax2.plot(perf.ix[perf.sell].index, perf.portfolio_value[perf.sell],
              'v', markersize=10, color='k')
     
+    ax3 = fig.add_subplot(313,  ylabel='KLCI')
+    ohlc[['KLCI',str(lag) + '_MA_Close']].plot(ax=ax3,sharex=True)
+    
     sharpe = [risk['sharpe'] for risk in dma.risk_report['one_month']]
     print "Monthly Sharpe ratios:", sharpe
     
@@ -146,6 +215,7 @@ if __name__ == '__main__':
     filename = outputDir + 'Figure_' + outputname
     plt.savefig(filename, dpi=400, bbox_inches='tight')
     
+    print "Backtest Complete"
     
     
     
